@@ -47,8 +47,6 @@
 
 from numba import cuda
 import numpy as np
-import math
-
 
 # Define a "device" (GPU) function:
 @cuda.jit # This thing is called a "decorator"
@@ -98,7 +96,7 @@ threadsperblock=512
 # exactly 1 thread corresponds to 1 index of our A,
 # B, and C arrays. We round the number up so that
 # we don't accidentally request too few blocks.
-blockspergrid = math.ceil(N/threadsperblock)
+blockspergrid = N // threadsperblock + 1
 
 # Now, finally, we can call our device function:
 add[blockspergrid,threadsperblock](
